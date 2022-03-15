@@ -8,7 +8,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create-drop # application loading 시점에 table drop 하고 재 생성, 테스트 적합
+      ddl-auto: create-drop # application loading 시점에 table drop 하고 create, application 종료 시점에 다시 drop, 테스트 적합
     properties:
       hibernate:
         #show_sql: true # sysout으로 sql을 확인하는 방식
