@@ -30,12 +30,12 @@ public class JpaMain {
 //            em.persist(member);
 
             // [select]
-            Member findMember = em.find(Member.class, 1L);
-            log.info("findMember id = {}, name = {}", findMember.getId(), findMember.getName());
+            MemberT1 findMemberT1 = em.find(MemberT1.class, 1L);
+            log.info("findMember id = {}, name = {}", findMemberT1.getId(), findMemberT1.getName());
 
-            findMember.setName("change1");
+            findMemberT1.setName("change1");
 //            em.flush(); 준영속 상태로 바뀌기전에 flush를 호출하고 더티체킹 & 쓰기지연 SQL 저장소 등록 & DB SQL 전달까지 완료해버림
-            em.detach(findMember);
+            em.detach(findMemberT1);
 
             // [update]
 //            findMember.setName("devyu"); // java collection을 다루는 것과 유사함. 더티체킹

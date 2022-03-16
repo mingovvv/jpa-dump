@@ -165,4 +165,46 @@
  - strategy = GenerationType.TABLE
     - 키 생성 전용 테이블을 만들어 시퀀스를 흉내내는 전략
     - Entity 레벨에서 @TableGenerator 필요
-        - allocationSize : 시퀀스 한 번 호출에 증가하는 수(성능 최적화에 사용됨) 
+        - allocationSize : 시퀀스 한 번 호출에 증가하는 수(성능 최적화에 사용됨)
+         
+----
+
+### 객체 - DB 매핑
+ - 단방향 연관관계
+ - 양방향 연관관계 
+    - 1 section : `@OneToMany` mappedBy 설정 필수
+    - N section : `@ManyToOne`, `@JoinColumn` 설정 필수
+    - DB와 객체간의 패러다임 불일치가 발생하는 부분으로 DB의 경우 Forignkey 만으로 테이블을 조인하여
+    양방향 참조가 가능하지만 객체의 경우, 양방향 참조를 하려면 단방향 연관관계가 2개가 있는 것이다.
+    - 팀 객체에서 회원 객체를 참조할 수 있어야 하고.. (다대일)
+    - 회원 객체에서 팀 객체를 참조할 수 있어야 하고.. (일대다)
+    - 그럼 객체는 양쪽에 참조를 만들어두었는데... 양쪽 중에 어떤게 바뀌었을 때, 업데이트 되어야 하지?
+    ```
+    @Entity
+    class Member {
+      @Id @GeneratedValue
+      private Long id;
+      
+      @ManyToOne
+      @JoinColumn
+      private Team team; // Member객체에서 Team객체를 참조할 수 있도록 만들고..
+    }
+   
+   
+    @Entity
+    class Team {
+      @Id @GeneratedValue
+      private Long id;
+   
+      @OneToMany(mappedBy = "team")
+      private List<Member> members = new ArrayList<>(); // Team객체에서 Member객체를 참조할 수 있도록 만들고..
+    } 
+    ```
+    - Member의 team을 수정해? Team의 members를 수정해? -> 연관관계의 주인을 정하자!
+    - 연관관계 주인
+        - 객체의 주 관계 중 하나를 연관관계의 주인으로 지정
+        - 주인으로 지정된 객체에서 외래키를 관리(등록, 수정)
+        - 주인이 아닌 쪽은 read 권한만 가짐
+        - 주인이 아닌 쪽에서 mappedBy 속성을 사용하여 주인을 지정
+        - 외래키가 있는 쪽이 주인(다 대 일 중에서 다 쪽) !!!!!!!!!!!!!!!!!!
+        
