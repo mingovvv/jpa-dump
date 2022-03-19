@@ -1,4 +1,4 @@
-package com.devyu.jpa.example.domain;
+package com.devyu.jpa.example.domain.forDb;
 
 public enum OrderStatus {
 

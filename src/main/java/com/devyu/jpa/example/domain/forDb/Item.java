@@ -1,4 +1,4 @@
-package com.devyu.jpa.example.domain;
+package com.devyu.jpa.example.domain.forDb;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,19 +11,17 @@ import javax.persistence.Id;
 @Entity
 @Getter
 @Setter
-public class Member {
+public class Item {
 
     @Id
     @GeneratedValue
-    @Column(name = "MEMBER_ID")
+    @Column(name = "ITEM_ID")
     private Long id;
 
     private String name;
 
-    private String city;
+    private int price;
 
-    private String street;
-
-    private String zipcode;
+    private int stockQuantity;
 
 }
